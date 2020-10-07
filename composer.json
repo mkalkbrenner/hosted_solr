@@ -1,0 +1,15 @@
+{
+    "name": "drupal/hosted_solr",
+    "type": "drupal-module",
+    "description": "Provides integration between your Drupal site and the Hosted Solr service.",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Markus Kalkbrenner",
+            "homepage": "https://www.drupal.org/u/mkalkbrenner"
+        }
+    ],
+    "require": {
+        "drupal/search_api_solr": "^4.1"
+    }
+}
