@@ -5,6 +5,8 @@ namespace Drupal\hosted_solr\Plugin\SolrConnector;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\search_api_solr\SolrConnector\BasicAuthTrait;
 use Drupal\search_api_solr\SolrConnector\SolrConnectorPluginBase;
+use Solarium\Client;
+use Solarium\Core\Client\Adapter\Http;
 
 /**
  * Class HostedSolrConnector.
@@ -14,7 +16,7 @@ use Drupal\search_api_solr\SolrConnector\SolrConnectorPluginBase;
  * @package Drupal\hosted_solr\Plugin\SolrConnector
  *
  * @SolrConnector(
- *   id = "search_api_hosted_solr",
+ *   id = "hosted_solr",
  *   label = @Translation("Hosted Solr"),
  *   description = @Translation("Index items using the Hosted Solr service.")
  * )
@@ -71,6 +73,22 @@ class HostedSolrConnector extends SolrConnectorPluginBase {
     $form_state->setValue('path', '/' . $values['auth']['username']);
 
     $this->basicAuthTraitSubmitConfigurationForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function createClient(array &$configuration) {
+    $adapter = new Http();
+    $adapter->setTimeout($configuration['timeout'] ?? 5);
+    return new Client($adapter, $this->eventDispatcher);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function pingServer() {
+    return $this->pingCore();
   }
 
   /**
