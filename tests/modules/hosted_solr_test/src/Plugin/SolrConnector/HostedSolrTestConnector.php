@@ -119,5 +119,11 @@ class HostedSolrTestConnector extends HostedSolrConnector {
         ] + $backend_config['connector_config'],
       ] + $backend_config)
       ->save(TRUE);
+
+    $search_api_server_storage = \Drupal::entityTypeManager()->getStorage('search_api_server');
+    $search_api_server_storage->resetCache();
+
+    $search_api_index_storage = \Drupal::entityTypeManager()->getStorage('search_api_index');
+    $search_api_index_storage->resetCache();
   }
 }
