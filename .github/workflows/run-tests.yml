@@ -76,12 +76,10 @@ jobs:
             - name: Run tests
               env:
                 SOLR_INDEX_WAIT: 4
-                SOLR_CLOUD: true
                 SYMFONY_DEPRECATIONS_HELPER: disabled
                 HOSTED_SOLR_HOST: ${{ secrets.HOSTED_SOLR_HOST }}
                 HOSTED_SOLR_USER: ${{ secrets.HOSTED_SOLR_USER }}
                 HOSTED_SOLR_PASSWORD: ${{ secrets.HOSTED_SOLR_PASSWORD }}
-
               run: |
                 cp hosted_solr/tests/github.phpunit.xml drupal/core/phpunit.xml.dist
                 cd drupal
