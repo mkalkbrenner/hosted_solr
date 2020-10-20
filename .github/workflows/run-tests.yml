@@ -83,10 +83,10 @@ jobs:
                 HOSTED_SOLR_PASSWORD: ${{ secrets.HOSTED_SOLR_PASSWORD }}
 
               run: |
-                cp search_api_solr/tests/github.phpunit.xml drupal/core/phpunit.xml.dist
+                cp hosted_solr/tests/github.phpunit.xml drupal/core/phpunit.xml.dist
                 cd drupal
                 php -S localhost:8888 >& /dev/null &
                 vendor/bin/drush si minimal --db-url=sqlite://sites/default/files/db.sqlite --yes
                 vendor/bin/drush en hosted_solr --yes
-                vendor/bin/drush en search_api_spellcheck,search_api_autocomplete,facets, search_api_location --yes
+                vendor/bin/drush en search_api_spellcheck,search_api_autocomplete,facets,search_api_location --yes
                 vendor/bin/phpunit -v -c core --group hosted_solr modules/contrib/hosted_solr
