@@ -30,4 +30,36 @@ class IntegrationTest extends SearchApiSolrIntegrationTest {
     HostedSolrTestConnector::adjustBackendConfig('search_api.server.solr_search_server');
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function configureBackendAndSave(array $edit) {
+    $this->submitForm($edit, 'Save');
+    $this->assertSession()->pageTextContains('Please configure the selected backend.');
+
+    $edit += [
+      'backend_config[connector]' => 'hosted_solr',
+    ];
+    $this->submitForm($edit, 'Save');
+    $this->assertSession()->pageTextContains('Please configure the selected Solr connector.');
+
+    $edit += [
+      'backend_config[connector_config][host]' => 'localhost',
+      'backend_config[connector_config][auth][username]' => HOSTED_SOLR_USER,
+      'backend_config[connector_config][auth][password]' => HOSTED_SOLR_PASSWORD,
+    ];
+    $this->submitForm($edit, 'Save');
+
+    $this->assertSession()->pageTextContains('The server was successfully saved.');
+    $this->assertSession()->addressEquals('admin/config/search/search-api/server/' . $this->serverId);
+    $this->assertSession()->pageTextContains('The Solr server could not be reached or is protected by your service provider.');
+
+    // Go back in and configure Solr.
+    $edit_path = 'admin/config/search/search-api/server/' . $this->serverId . '/edit';
+    $this->drupalGet($edit_path);
+    $edit['backend_config[connector_config][host]'] = HOSTED_SOLR_HOST;
+    $this->submitForm($edit, 'Save');
+    $this->assertSession()->pageTextContains('The Solr server could be reached.');
+  }
+
 }
