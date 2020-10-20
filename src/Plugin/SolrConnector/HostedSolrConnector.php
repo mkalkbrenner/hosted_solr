@@ -35,7 +35,10 @@ class HostedSolrConnector extends SolrConnectorPluginBase {
   public function defaultConfiguration() {
     return [
       'scheme' => 'https',
+      'host' => '',
       'port' => 443,
+      'path' => '',
+      'core' => 'core',
     ] + $this->basicAuthTraitDefaultConfiguration();
   }
 
@@ -55,12 +58,18 @@ class HostedSolrConnector extends SolrConnectorPluginBase {
       '#value' => '443',
     ];
 
-    $form['path'] = [
+    $form['core'] = [
       '#type' => 'value',
-      '#value' => '/',
+      '#value' => 'core',
     ];
 
+    $form['path']['#type'] = 'hidden';
+
+    $form['host']['#title'] = $this->t('Hosted Solr Host');
+    $form['host']['#description'] = $this->t('Just copy & paste the "Host" value of the Solr index as shown in your Hosted Solr account.');
+
     $form['auth']['#title'] = $this->t('Hosted Solr Credentials');
+    $form['auth']['#description'] = $this->t('Just copy & paste the "User" and "Password" values of the Solr index as shown in your Hosted Solr account.');
 
     return $form;
   }
@@ -70,6 +79,7 @@ class HostedSolrConnector extends SolrConnectorPluginBase {
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
+
     $form_state->setValue('path', '/' . $values['auth']['username']);
 
     $this->basicAuthTraitSubmitConfigurationForm($form, $form_state);

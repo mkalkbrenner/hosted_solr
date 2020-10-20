@@ -10,6 +10,7 @@ use Solarium\Core\Client\Response;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\Core\Query\Result\Result;
 
+defined('HOSTED_SOLR_HOST') || define('HOSTED_SOLR_HOST', getenv('HOSTED_SOLR_HOST') ?: '');
 defined('HOSTED_SOLR_USER') || define('HOSTED_SOLR_USER', getenv('HOSTED_SOLR_USER') ?: '');
 defined('HOSTED_SOLR_PASSWORD') || define('HOSTED_SOLR_PASSWORD', getenv('HOSTED_SOLR_PASSWORD') ?: '');
 
@@ -109,10 +110,10 @@ class HostedSolrTestConnector extends HostedSolrConnector {
         'connector' => 'hosted_solr_test',
         'connector_config' => [
           'scheme' => 'https',
-          'host' => 'node-11.hosted-solr.com',
+          'host' => HOSTED_SOLR_HOST,
           'port' => 443,
           'path' => '/' . HOSTED_SOLR_USER,
-          'core' => 'core_en',
+          'core' => 'core',
           'username' => HOSTED_SOLR_USER,
           'password' => HOSTED_SOLR_PASSWORD,
         ] + $backend_config['connector_config'],
