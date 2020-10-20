@@ -23,9 +23,7 @@ class ViewsTest extends SearchApiSolrViewsTest {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
-    parent::setUp();
-
+  protected function adjustBackendConfig() {
     // Swap the connector.
     HostedSolrTestConnector::adjustBackendConfig('search_api.server.solr_search_server');
   }
