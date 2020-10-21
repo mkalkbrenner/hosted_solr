@@ -19,6 +19,14 @@ jobs:
                 exclude:
                   - drupal: '9.1'
                     php: '7.3'
+                  - drupal: '9.1'
+                    php: '7.4'
+                  - drupal: '9.0'
+                    php: '7.4'
+                  - drupal: '8.9'
+                    php: '7.3'
+                  - drupal: '8.9'
+                    php: '7.4'
 
         name: Drupal ${{ matrix.drupal }}, PHP ${{ matrix.php }}
 
