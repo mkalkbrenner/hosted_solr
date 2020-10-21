@@ -13,17 +13,13 @@ jobs:
         runs-on: ubuntu-latest
 
         strategy:
+            # As we run all combinations against the same remote core, run one after the other.
+            max-parallel: 1
             matrix:
                 drupal: ['8.9', '9.0', '9.1']
                 php: ['7.3', '7.4']
                 exclude:
                   - drupal: '9.1'
-                    php: '7.3'
-                  - drupal: '9.1'
-                    php: '7.4'
-                  - drupal: '9.0'
-                    php: '7.4'
-                  - drupal: '8.9'
                     php: '7.3'
                   - drupal: '8.9'
                     php: '7.4'
