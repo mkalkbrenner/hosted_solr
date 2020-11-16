@@ -15,7 +15,7 @@ defined('HOSTED_SOLR_USER') || define('HOSTED_SOLR_USER', getenv('HOSTED_SOLR_US
 defined('HOSTED_SOLR_PASSWORD') || define('HOSTED_SOLR_PASSWORD', getenv('HOSTED_SOLR_PASSWORD') ?: '');
 
 /**
- * Basic auth Solr test connector.
+ * Hosted Solr test connector.
  *
  * @SolrConnector(
  *   id = "hosted_solr_test",

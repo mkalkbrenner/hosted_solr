@@ -1,5 +1,5 @@
 type: module
-name: 'Histed Solr Test'
+name: 'Hosted Solr Test'
 description: 'Support module for Hosted Solr search tests.'
 package: 'Search API'
 dependencies:
