@@ -16,12 +16,10 @@ jobs:
             # As we run all combinations against the same remote core, run one after the other.
             max-parallel: 1
             matrix:
-                drupal: ['8.9', '9.0', '9.1']
-                php: ['7.3', '7.4']
+                drupal: ['9.5', '10.0']
+                php: ['7.4', '8.1']
                 exclude:
-                  - drupal: '9.1'
-                    php: '7.3'
-                  - drupal: '8.9'
+                  - drupal: '10.0'
                     php: '7.4'
 
         name: Drupal ${{ matrix.drupal }}, PHP ${{ matrix.php }}
@@ -32,8 +30,6 @@ jobs:
         steps:
             - name: Setup sqlite
               run: |
-                # Drupal 9 requires a newer sqlite version which is available using this ppa.
-                sudo add-apt-repository ppa:sergey-dryabzhinsky/packages
                 sudo apt-get update
                 sudo apt-get install sqlite3 libsqlite3-dev
 
@@ -46,14 +42,14 @@ jobs:
                 coverage: none
 
             - name: Checkout drupal
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                 repository: drupal/drupal
                 ref: ${{ matrix.drupal }}.x
                 path: drupal
 
             - name: Checkout hosted_solr
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               with:
                 path: hosted_solr
                 fetch-depth: 0
@@ -61,14 +57,14 @@ jobs:
             - name: Tag hosted_solr
               run: |
                 cd hosted_solr
-                git tag 1.0.99
+                git tag 1.1.99
 
             - name: Install dependencies
               run: |
                 cd drupal
                 composer --version
                 composer config repositories.hosted_solr '{"type": "vcs", "url": "../hosted_solr"}'
-                composer require solarium/solarium:"dev-master as 6.0.99" drupal/search_api:1.x-dev drupal/search_api_solr:4.x-dev drupal/hosted_solr:1.0.99 drupal/search_api_autocomplete:1.x-dev drupal/search_api_spellcheck:3.x-dev drupal/facets:1.x-dev drupal/devel:3.x-dev drupal/search_api_location:1.x-dev drupal/geofield drush/drush monolog/monolog --ignore-platform-reqs --no-interaction
+                composer require solarium/solarium:"dev-master as 6.2.99" drupal/search_api_solr:4.x-dev drupal/hosted_solr:1.1.99 drupal/search_api_autocomplete:1.x-dev drupal/search_api_spellcheck:3.x-dev drupal/facets:3.0.x-dev drupal/devel drupal/search_api_location:1.x-dev drupal/geofield drush/drush monolog/monolog --ignore-platform-reqs --no-interaction
                 composer run-script drupal-phpunit-upgrade
 
             #- name: Install search_api_location
@@ -88,7 +84,7 @@ jobs:
                 cp hosted_solr/tests/github.phpunit.xml drupal/core/phpunit.xml.dist
                 cd drupal
                 php -S localhost:8888 >& /dev/null &
-                vendor/bin/drush si minimal --db-url=sqlite://sites/default/files/db.sqlite --yes
+                vendor/bin/drush si standard --db-url=sqlite://sites/default/files/db.sqlite --yes
                 vendor/bin/drush en hosted_solr --yes
                 vendor/bin/drush en search_api_spellcheck,search_api_autocomplete,facets,search_api_location --yes
                 vendor/bin/phpunit -v -c core --group hosted_solr modules/contrib/hosted_solr
