@@ -21,6 +21,53 @@ class HostedSolrTest extends SearchApiSolrTest {
   ];
 
   /**
+   * The language IDs.
+   *
+   * @var array
+   */
+  protected $languageIds = [
+    'ar' => 'ar',
+    'bg' => 'bg',
+    'ca' => 'ca',
+    'cs' => 'cs',
+    'da' => 'da',
+    'de' => 'de',
+    'de-at' => 'de',
+    'el' => 'el',
+    'en' => 'en',
+    'es' => 'es',
+    'et' => 'et',
+    'fa' => 'fa',
+    'fi' => 'fi',
+    'fr' => 'fr',
+    'ga' => 'ga',
+    'hi' => 'hi',
+    'hr' => 'hr',
+    //'hu' => 'hu',
+    'id' => 'id',
+    'it' => 'it',
+    'ja' => 'ja',
+    'lv' => 'lv',
+    'nb' => 'nb',
+    'nl' => 'nl',
+    'nn' => 'nn',
+    'pl' => 'pl',
+    'pt-br' => 'pt_br',
+    'pt-pt' => 'pt_pt',
+    'ro' => 'ro',
+    'ru' => 'ru',
+    'sk' => 'sk',
+    'sr' => 'sr',
+    'sv' => 'sv',
+    'th' => 'th',
+    'tr' => 'tr',
+    'xx' => FALSE,
+    'uk' => 'uk',
+    'zh-hans' => 'zh_hans',
+    'zh-hant' => 'zh_hant',
+  ];
+
+  /**
    * {@inheritdoc}
    */
   protected function installConfigs() {
