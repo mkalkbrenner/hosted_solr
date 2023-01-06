@@ -62,16 +62,8 @@ jobs:
             - name: Install dependencies
               run: |
                 cd drupal
-                composer --version
                 composer config repositories.hosted_solr '{"type": "vcs", "url": "../hosted_solr"}'
                 composer require drupal/hosted_solr:1.1.99 drupal/search_api_autocomplete drupal/search_api_spellcheck drupal/facets drupal/devel drupal/search_api_location drupal/geofield drush/drush monolog/monolog --ignore-platform-reqs --no-interaction
-                composer run-script drupal-phpunit-upgrade
-
-            #- name: Install search_api_location
-            #  if: matrix.drupal != '9.0'
-            #  run: |
-            #    cd drupal
-            #    composer require drupal/search_api_location
 
             - name: Run tests
               env:
